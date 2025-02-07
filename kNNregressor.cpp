@@ -49,7 +49,8 @@ void readCSV(std::string &filename, std::vector <std::vector <double>> &data)
     file.close();
 }
 
-void get_attributes(std::vector <std::vector <double>> &data, std::vector <std::vector <double>> &attributes)
+void get_attributes(std::vector <std::vector <double>> &data, 
+    std::vector <std::vector <double>> &attributes)
 {
     int rows = data.size();
     int cols = data[0].size();
@@ -71,7 +72,8 @@ void get_attributes(std::vector <std::vector <double>> &data, std::vector <std::
     attributes.push_back(avg);
     attributes.push_back(avg_squared);
 }
-void zscore_standardise(std::vector <std::vector <double>> &data, std::vector <std::vector <double>> &attributes)
+void zscore_standardise(std::vector <std::vector <double>> &data, 
+    std::vector <std::vector <double>> &attributes)
 {
     int rows = data.size();
     int cols = data[0].size();
@@ -90,7 +92,8 @@ void zscore_standardise(std::vector <std::vector <double>> &data, std::vector <s
     } 
 }
 
-void predict_output(std::vector <std::vector <double>> &training_data, std::vector <std::vector <double>> &test_data, int k)
+void predict_output(std::vector <std::vector <double>> &training_data, 
+    std::vector <std::vector <double>> &test_data, int k)
 {
     std::vector <std::vector <double>> attributes;
     if (training_data.empty() || test_data.empty())
@@ -109,7 +112,8 @@ void predict_output(std::vector <std::vector <double>> &training_data, std::vect
     }
 }
 
-double avg_nearest_neighbours(std::vector <double> &data_point, std::vector <std::vector <double>> &training_data, int k)
+double avg_nearest_neighbours(std::vector <double> &data_point, 
+    std::vector <std::vector <double>> &training_data, int k)
 {
     std::vector <std::pair <int, double>> distance_map;
     int rows = training_data.size();
@@ -123,7 +127,8 @@ double avg_nearest_neighbours(std::vector <double> &data_point, std::vector <std
         }
         distance_map.emplace_back(i, distance);
     }
-    std::partial_sort(distance_map.begin(), distance_map.begin() + k , distance_map.end(), [](const std::pair<int, double>& a, const std::pair<int, double>& b) {
+    std::partial_sort(distance_map.begin(), distance_map.begin() + k , distance_map.end(), 
+    [](const std::pair<int, double>& a, const std::pair<int, double>& b) {
         return a.second < b.second;
     });
     double predicted_value = 0;
