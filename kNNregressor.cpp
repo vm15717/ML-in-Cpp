@@ -15,12 +15,13 @@ double avg_nearest_neighbours(std::vector <double> &, std::vector <std::vector <
 
 int main()
 {
-    std::string filename;
+    std::string filename = "training_data.csv";
     std::vector <std::vector <double>> training_data;
     readCSV(filename, training_data);
     int k = 3;
     std::vector <std::vector <double>> test_data;
-    readCSV(filename, test_data);
+    std::string filename2 = "test_data.csv";
+    readCSV(filename2, test_data);
     predict_output(training_data, test_data, k);
     return 0;
 }
@@ -65,7 +66,7 @@ void get_attributes(std::vector <std::vector <double>> &data, std::vector <std::
     for (int k = 0; k < cols - 1; k++)
     {
         avg[k] /= rows;
-        avg_squared[k] = std::sqrt(avg_squared[k]/(rows-1) - avg[k]*avg[k]);
+        avg_squared[k] = std::sqrt(avg_squared[k]/(rows) - avg[k]*avg[k]);
     }
     attributes.push_back(avg);
     attributes.push_back(avg_squared);
@@ -104,6 +105,7 @@ void predict_output(std::vector <std::vector <double>> &training_data, std::vect
     {
          double predicted_value = avg_nearest_neighbours(test_data[i], training_data, k);
          predicted_values.push_back(predicted_value);
+         std::cout << "Predicted value is " << predicted_value << std::endl;
     }
 }
 
@@ -131,7 +133,7 @@ double avg_nearest_neighbours(std::vector <double> &data_point, std::vector <std
     }
     for (int m = 0; m < k; m++)
     {
-        predicted_value = predicted_value + training_data[distance_map[m].first][cols] / k;
+        predicted_value = predicted_value + training_data[distance_map[m].first][cols-1] / k;
     }
     return predicted_value;
 }
