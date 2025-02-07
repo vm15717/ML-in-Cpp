@@ -1,7 +1,6 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include <map>
 #include <string>
 #include <cmath>
 #include <algorithm>
