@@ -4,6 +4,7 @@
 #include <Eigen/Dense>
 #include <sstream>
 #include <fstream>
+#include <stdio.h>
 
 void fisher_yates_shuffle(Eigen::MatrixXd &);
 void readCSV(std::string &, std::vector <std::vector <double>> &);
