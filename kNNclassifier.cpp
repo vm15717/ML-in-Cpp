@@ -16,7 +16,7 @@ int nearest_neighbours(std::vector <double> &, std::vector <std::vector <double>
 
 int main()
 {
-    std::string filename;
+    std::string filename = "diabetes.csv";
     std::vector <std::vector <double>> data;
     readCSV(filename, data);
     predict_output(data, 3);
