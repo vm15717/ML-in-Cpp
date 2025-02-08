@@ -4,11 +4,13 @@
 #include <Eigen/Dense>
 #include <sstream>
 #include <fstream>
-#include <stdio.h>
 
 void fisher_yates_shuffle(Eigen::MatrixXd &);
 void readCSV(std::string &, std::vector <std::vector <double>> &);
 void linear_regression(Eigen::MatrixXd &);
+void zscore_standardise(Eigen::MatrixXd &, Eigen::MatrixXd &);
+void get_attributes(Eigen::MatrixXd &, Eigen::MatrixXd &);
+void predict(Eigen::MatrixXd &, Eigen::MatrixXd &, Eigen::MatrixXd &);
 
 int main()
 {
@@ -55,7 +57,7 @@ void readCSV(std::string &filename, std::vector <std::vector <double>> &data)
             }
             catch(const std::invalid_argument&)
             {
-                throw std::runtime_error("Invalid data in file") << std::endl;
+                throw std::runtime_error("Invalid data in file");
             }
             
         }
@@ -123,7 +125,7 @@ void zscore_standardise(Eigen::MatrixXd &data_matrix, Eigen::MatrixXd &attribute
 {
     data_matrix = (data_matrix.rowwise() - attributes.row(0).transpose()).array().rowwise() / attributes.row(1).transpose().array();
 }
-void predict(Eigen::MatrixXd &parameters, Eigen::MatrixXd &inpute_data_matrix, Eigen::MatrixXd &output_data_matrix)
+void predict(Eigen::MatrixXd &parameters, Eigen::MatrixXd &input_data_matrix, Eigen::MatrixXd &output_data_matrix)
 {
     Eigen::MatrixXd prediction = input_data_matrix*parameters;
     double lmserror = std::sqrt(((prediction - output_data_matrix).array().square().sum())/prediction.rows());
