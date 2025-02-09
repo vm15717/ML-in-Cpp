@@ -57,7 +57,10 @@
         "map": "cpp",
         "set": "cpp",
         "cfenv": "cpp",
-        "fstream": "cpp"
+        "*.cpp": "cpp",
+        "fstream": "cpp",
+        "type_traits": "cpp",
+        "forward_list": "cpp"
     },
     "C_Cpp.default.compilerPath": "/usr/bin/clang++"
 }
