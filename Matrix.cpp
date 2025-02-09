@@ -9,7 +9,7 @@ class Matrix
     int cols;
     T *data;
     public:
-    Matrix(int r, int c, T t) :rows(r), cols(c)
+    Matrix(int r, int c, T t) :rows(r), cols(c), data(nullptr)
     {
         if (rows * cols <= 0)
         {
@@ -24,15 +24,32 @@ class Matrix
             }   
         }
     }
+    Matrix (std::vector <std::vector <T>> &data_matrix)
+    {
+        if (!data_matrix.empty())
+        {
+            throw std::invalid_argument("The data_matrix is empty");
+        }
+        int rows = data_matrix.size();
+        int cols = data_matrix[0].size();
+        data = new T[rows * cols];
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                data[i*j+j] = data_matrix[i][j];
+            }
+        }
+    }
     ~Matrix()
     {
-        delete []data;
+        delete[] data;
     }
     T at(const int i, const int j) const
     {
-        if (i < 0 || i > rows || j < 0 || j > cols)
+        if (i < 0 || i >= rows || j < 0 || j >= cols)
         {
-            std::cerr << "The row and column positions are out of bounds!" << std::endl;
+            throw std::out_of_range("The row and column positions are out of bounds!");
         }
         else
         {
@@ -41,13 +58,27 @@ class Matrix
     }
     int getrows() const
     {
-        return this.rows;
+        return rows;
     }
     int getcols() const
     {
-        return this.cols;
+        return cols;
     }
     Matrix operator+(const Matrix &other) const 
+    {
+        if (other.rows != rows || other.cols != cols)
+        {
+            std::cerr << "The numbers of rows and/or columns do not match to perform addition";
+            return;
+        }
+        Matrix result(other.rows, other.cols, 0);
+        for (int i = 0; i < rows*cols; i++)
+        {
+            result[i] = data[i] + other.data[i];
+        }
+        return result;
+    }
+    Matrix operator-(const Matrix &other)
     {
         if (other.rows != rows || other.cols != cols)
         {
@@ -59,30 +90,8 @@ class Matrix
             Matrix result(other.rows, other.cols, 0);
             for (int i = 0; i < rows*cols; i++)
             {
-                result[i] = data[i] + other.data[i];
+                result[i] = data[i] - other.data[i];
             }
-            return result;
-        }
-    }
-    Matrix operator-(const Matrix &other)
-    {
-        for (int i = 0; i < other.rows * other.cols; i++)
-        {
-            other.data[i] = -1*other.data[i];
-        }
-        return other;
-    }
-    Matrix operator-(const Matrix &other)
-    {
-        if (other.rows != rows || other.cols != cols)
-        {
-            std::cerr << "The numbers of rows and/or columns do not match to perform addition";
-            return;
-        }
-        else
-        {
-            Matrix result(other.rows, other.cols, 0);
-            result = this + (-other);
             return result;
         }
     }
@@ -90,27 +99,26 @@ class Matrix
     {
         if (cols != other.rows)
         {
-            std::cerr << "Cannot multiply the matrices, the dimensions do not match" << std::endl;
+            throw std::invalid_argument("Cannot multiply the matrices, the dimensions do not match");
         }
-        else
-        {
-            Matrix result(rows, other.cols, 0);
-            for (int i = 0; i < rows * other.cols; i++)
+        Matrix result(rows, other.cols, 0);
+        for (int i = 0; i < rows; i++)
             { 
-                for (int j = 0; j < cols; j++)
+                for (int j = 0; j < other.cols; j++)
                 {
-                    result[i] += data[j + (i/cols) * cols] * other.data[i%cols+cols*j]
+                    for (int k = 0; k < cols; k++)
+                    {
+                        result[i*j+j] += data[i*k+k]*other.data[k*j+j];
+                    }
                 }
             }
-            return result;
-        }
+        return result;
     }
     friend std::ostream &operator <<(std::ostream &out, const Matrix &matrix)
     {
         if (matrix.rows <= 0 || matrix.cols <=0)
         {
-            std::cerr << "This matrix is invalid, cannot be printed!" << std::endl;
-            return;
+            throw std::invalid_argument("This matrix is invalid, cannot be printed!");
         }
         for (int i = 0; i < matrix.rows; i++)
         {
@@ -120,5 +128,6 @@ class Matrix
             }
             out << std::endl;
         }
+        return out;
     }
 };
