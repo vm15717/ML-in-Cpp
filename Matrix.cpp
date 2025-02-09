@@ -24,4 +24,19 @@ class Matrix
             }   
         }
     }
+    ~Matrix()
+    {
+        delete []data;
+    }
+    T at(int i, int j)
+    {
+        if (i < 0 || i > rows || j < 0 || j > cols)
+        {
+            std::cerr << "The row and column positions are out of bounds!" << std::endl;
+        }
+        else
+        {
+            return data[i*cols + j];
+        }
+    }
 };
