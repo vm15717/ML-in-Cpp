@@ -108,7 +108,7 @@ class Matrix
                 {
                     for (int k = 0; k < cols; k++)
                     {
-                        result[i*j+j] += data[i*k+k]*other.data[k*j+j];
+                        result.data[i*j+j] += data[i*k+k]*other.data[k*j+j];
                     }
                 }
             }
