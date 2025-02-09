@@ -28,7 +28,6 @@ class Matrix
     {
         delete []data;
     }
-
     T at(const int i, const int j) const
     {
         if (i < 0 || i > rows || j < 0 || j > cols)
@@ -39,6 +38,14 @@ class Matrix
         {
             return data[i*cols + j];
         }
+    }
+    int getrows() const
+    {
+        return this.rows;
+    }
+    int getcols() const
+    {
+        return this.cols;
     }
     Matrix operator+(const Matrix &other) const 
     {
@@ -77,6 +84,41 @@ class Matrix
             Matrix result(other.rows, other.cols, 0);
             result = this + (-other);
             return result;
+        }
+    }
+    Matrix operator*(const Matrix &other)
+    {
+        if (cols != other.rows)
+        {
+            std::cerr << "Cannot multiply the matrices, the dimensions do not match" << std::endl;
+        }
+        else
+        {
+            Matrix result(rows, other.cols, 0);
+            for (int i = 0; i < rows * other.cols; i++)
+            { 
+                for (int j = 0; j < cols; j++)
+                {
+                    result[i] += data[j + (i/cols) * cols] * other.data[i%cols+cols*j]
+                }
+            }
+            return result;
+        }
+    }
+    friend std::ostream &operator <<(std::ostream &out, const Matrix &matrix)
+    {
+        if (matrix.rows <= 0 || matrix.cols <=0)
+        {
+            std::cerr << "This matrix is invalid, cannot be printed!" << std::endl;
+            return;
+        }
+        for (int i = 0; i < matrix.rows; i++)
+        {
+            for (int j = 0; j < matrix.cols;j++)
+            {
+                out << matrix.data[i*j+j] << "\t";
+            }
+            out << std::endl;
         }
     }
 };
