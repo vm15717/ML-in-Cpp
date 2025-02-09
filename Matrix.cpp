@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <exception>
 template <typename T>
 
 class Matrix
@@ -9,11 +9,11 @@ class Matrix
     int cols;
     T *data;
     public:
-    Matrix(int r, int c, T t) :rows(r), cols(c), data(nullptr)
+    Matrix(const int r, const int c, const T t) :rows(r), cols(c), data(nullptr)
     {
         if (rows * cols <= 0)
         {
-            std::cerr << "The matrix cannot be empty" << std::endl;
+            throw std::invalid_argument("The matrix cannot be empty");
         }
         else
         {
@@ -24,20 +24,20 @@ class Matrix
             }   
         }
     }
-    Matrix (std::vector <std::vector <T>> &data_matrix)
+    Matrix (const std::vector <std::vector <T>> &data_matrix)
     {
-        if (!data_matrix.empty())
+        if (data_matrix.empty())
         {
             throw std::invalid_argument("The data_matrix is empty");
         }
-        int rows = data_matrix.size();
-        int cols = data_matrix[0].size();
+        this->rows = data_matrix.size();
+        this->cols = data_matrix[0].size();
         data = new T[rows * cols];
         for (int i = 0; i < rows; i++)
         {
             for (int j = 0; j < cols; j++)
             {
-                data[i*j+j] = data_matrix[i][j];
+                data[i*cols+j] = data_matrix[i][j];
             }
         }
     }
@@ -68,8 +68,7 @@ class Matrix
     {
         if (other.rows != rows || other.cols != cols)
         {
-            std::cerr << "The numbers of rows and/or columns do not match to perform addition";
-            return;
+            throw std::invalid_argument("The numbers of rows and/or columns do not match to perform addition");
         }
         Matrix result(other.rows, other.cols, 0);
         for (int i = 0; i < rows*cols; i++)
@@ -82,8 +81,7 @@ class Matrix
     {
         if (other.rows != rows || other.cols != cols)
         {
-            std::cerr << "The numbers of rows and/or columns do not match to perform addition";
-            return;
+            throw std::invalid_argument("The numbers of rows and/or columns do not match to perform addition");
         }
         else
         {
@@ -108,7 +106,7 @@ class Matrix
                 {
                     for (int k = 0; k < cols; k++)
                     {
-                        result.data[i*j+j] += data[i*k+k]*other.data[k*j+j];
+                        result.data[i*other.cols+j] += data[i*cols+k]*other.data[k*other.cols+j];
                     }
                 }
             }
@@ -122,9 +120,9 @@ class Matrix
         }
         for (int i = 0; i < matrix.rows; i++)
         {
-            for (int j = 0; j < matrix.cols;j++)
+            for (int j = 0; j < matrix.cols; j++)
             {
-                out << matrix.data[i*j+j] << "\t";
+                out << matrix.data[i * matrix.cols + j] << "\t";
             }
             out << std::endl;
         }
