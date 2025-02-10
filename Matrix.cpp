@@ -77,7 +77,7 @@ class Matrix
         }
         return result;
     }
-    Matrix operator-(const Matrix &other)
+    Matrix operator-(const Matrix &other) const
     {
         if (other.rows != rows || other.cols != cols)
         {
@@ -93,7 +93,7 @@ class Matrix
             return result;
         }
     }
-    Matrix operator*(const Matrix &other)
+    Matrix operator*(const Matrix &other) const
     {
         if (cols != other.rows)
         {
@@ -110,6 +110,26 @@ class Matrix
                     }
                 }
             }
+        return result;
+    }
+    void insert(const int row, const int col, T val)
+    {
+        if (row < 0 || row > rows || col < 0 || col > rows)
+        {
+            throw std::out_of_range("Out of bounds");
+        }
+        this->data[row*cols+col] = val;
+    }
+    Matrix transpose() const
+    {
+        Matrix result(cols, rows, 0);
+        for (int i = 0; i < cols; i++)
+        {
+            for (int j = 0; j < rows; j++)
+            {
+                result.data[i*rows+j] = data[i + j*cols];
+            }
+        }
         return result;
     }
     friend std::ostream &operator <<(std::ostream &out, const Matrix &matrix)
