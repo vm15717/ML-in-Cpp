@@ -41,9 +41,74 @@ class Matrix
             }
         }
     }
+    Matrix (int n, std::string &mattype)
+    {
+        if (n <= 0)
+        {
+            throw std::invalid_argument("The number of rows or cols have to be > 0");
+        }
+        rows = n;
+        cols = n;
+        data = new T[n*n];
+        std::fill(data, data+rows*cols, 0);
+        if (mattype == "eye")
+        {
+            for (int i = 0; i < rows; i++)
+            {
+                data[i*cols+i] = 1;
+            }
+        }
+    }
     ~Matrix()
     {
         delete[] data;
+    }
+    Matrix (const Matrix &other)
+    {
+        rows = other.rows;
+        cols = other.cols;
+        data = new T[rows*cols];
+        for (int i = 0; i < rows*cols; i++)
+        {
+            data[i] =  other.data[i];
+        }
+    }
+    Matrix inverse()
+    {
+        if (rows != cols)
+        {
+            throw std::invalid_argument("The matrix is not square!, cannot calculate the inverse.");
+        }
+        std::string mattype = "eye";
+        Matrix <double> identity(rows, mattype);
+        Matrix result = *this;
+        for (int i = 0; i < rows; i++)
+        {
+            T factor = result.data[i*cols+i];
+            if (factor == 0)
+            {
+                throw std::invalid_argument("Matrix is singular");
+            }
+            for (int j = 0; j < cols; j++)
+            {
+                result.data[i*cols+j] /= factor;
+                identity.data[i*cols+j] /= factor;
+            }
+            std::cout << identity << std::endl;
+            for (int k = 0; k < rows; k++)
+            {
+                if (i != k)
+                {   
+                    T subval = result.data[k*cols+i]/result.data[i*cols+i];
+                    for (int l = 0; l < cols; l++)
+                    {
+                        result.data[k*cols+l] -= subval*result.data[i*cols+l];
+                        identity.data[k*cols+l] -= subval*identity.data[i*cols+l]; 
+                    }
+                }
+            }
+        }
+        return identity;
     }
     T at(const int i, const int j) const
     {
@@ -114,7 +179,7 @@ class Matrix
     }
     void insert(const int row, const int col, T val)
     {
-        if (row < 0 || row > rows || col < 0 || col > rows)
+        if (row < 0 || row >= rows || col < 0 || col >= rows)
         {
             throw std::out_of_range("Out of bounds");
         }
