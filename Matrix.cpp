@@ -41,15 +41,13 @@ class Matrix
             }
         }
     }
-    Matrix (int n, std::string &mattype)
+    Matrix (const int n,const std::string &mattype):rows(n), cols(n)
     {
-        if (n <= 0)
+        if (rows <= 0)
         {
             throw std::invalid_argument("The number of rows or cols have to be > 0");
         }
-        rows = n;
-        cols = n;
-        data = new T[n*n];
+        data = new T[rows*cols];
         std::fill(data, data+rows*cols, 0);
         if (mattype == "eye")
         {
@@ -63,14 +61,15 @@ class Matrix
     {
         delete[] data;
     }
-    Matrix<double> (const Matrix &other)
+    template <typename U>
+    Matrix (const Matrix<U> &other)
     {
         rows = other.rows;
         cols = other.cols;
-        data = new double[rows*cols];
+        data = new T[rows*cols];
         for (int i = 0; i < rows*cols; i++)
         {
-            data[i] =  other.data[i];
+            data[i] =  static_cast<T>(other.data[i]);
         }
     }
     Matrix<double> inverse()
@@ -137,7 +136,7 @@ class Matrix
         Matrix result(other.rows, other.cols, 0);
         for (int i = 0; i < rows*cols; i++)
         {
-            result[i] = data[i] + other.data[i];
+            result.data[i] = data[i] + other.data[i];
         }
         return result;
     }
@@ -152,7 +151,7 @@ class Matrix
             Matrix result(other.rows, other.cols, 0);
             for (int i = 0; i < rows*cols; i++)
             {
-                result[i] = data[i] - other.data[i];
+                result.data[i] = data[i] - other.data[i];
             }
             return result;
         }
@@ -191,7 +190,7 @@ class Matrix
         {
             for (int j = 0; j < rows; j++)
             {
-                result.data[i*rows+j] = data[i + j*cols];
+                result.data[j*rows+i] = data[i*cols + j];
             }
         }
         return result;
