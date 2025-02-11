@@ -63,17 +63,17 @@ class Matrix
     {
         delete[] data;
     }
-    Matrix (const Matrix &other)
+    Matrix<double> (const Matrix &other)
     {
         rows = other.rows;
         cols = other.cols;
-        data = new T[rows*cols];
+        data = new double[rows*cols];
         for (int i = 0; i < rows*cols; i++)
         {
             data[i] =  other.data[i];
         }
     }
-    Matrix inverse()
+    Matrix<double> inverse()
     {
         if (rows != cols)
         {
@@ -94,7 +94,6 @@ class Matrix
                 result.data[i*cols+j] /= factor;
                 identity.data[i*cols+j] /= factor;
             }
-            std::cout << identity << std::endl;
             for (int k = 0; k < rows; k++)
             {
                 if (i != k)
