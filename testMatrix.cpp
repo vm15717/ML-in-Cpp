@@ -12,10 +12,10 @@ int main()
     std::string type = "eye";
     Matrix <int> mat5(2, type);
     Matrix <double> mat4(5,1,1);
-    Matrix <double> mat6(5,4,0);
-    for (int i = 0; i < 5; i++)
+    Matrix <double> mat6(3,2,0);
+    for (int i = 0; i < 3; i++)
     {
-        for (int j = 0; j < 4; j++)
+        for (int j = 0; j < 2; j++)
         {
             std::uniform_real_distribution <double> dist(0, 5);
             double k = dist(gen);
@@ -25,11 +25,12 @@ int main()
     std::cout << mat6 << std::endl;
     //std::cout << mat6.getcols() << std::endl;
     //std::cout << mat6.getrows() << std::endl;
-    Matrix <double> mat7 = mat6.block(0, 0, 5, 3);
-    std::cout << mat7 << std::endl;
-    Matrix <double> mat8(5, 1, 1);
-    Matrix <double> mat9 = mat7.hstack(mat8);
-    std::cout << mat9 << std::endl;
-    std::cout << (mat9.transpose()*mat9).inverse() << std::endl;
+    //Matrix <double> mat7 = mat6.block(0, 0, 5, 3);
+    //std::cout << mat7 << std::endl;
+    //Matrix <double> mat8(5, 1, 1);
+    //Matrix <double> mat9 = mat7.hstack(mat8);
+    //std::cout << mat9 << std::endl;
+    //std::cout << (mat9.transpose()*mat9).inverse() << std::endl;
+    std::cout << mat6.reshape(2, 3);
     return 0;
 }

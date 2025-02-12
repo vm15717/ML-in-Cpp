@@ -1,5 +1,6 @@
 #include <iostream>
 #include <exception>
+#include <string>
 template <typename T>
 
 class Matrix
@@ -254,6 +255,32 @@ class Matrix
             for (int j = 0; j < rows; j++)
             {
                 result.data[j*rows+i] = data[i*cols + j];
+            }
+        }
+        return result;
+    }
+    Matrix flatten() const
+    {
+        Matrix result(rows*cols, 1, 0);
+        for (int i = 0;i < rows*cols; i++)
+        {
+            result.data[i] = data[i];
+        }
+        return result;
+    }
+    Matrix reshape(const int n_rows, const int n_cols) const
+    {
+        if (n_rows*n_cols != rows*cols)   
+        {
+            throw std::invalid_argument("Cannot reshape (" + std::to_string(rows) + ", "
+            + std::to_string(cols) + ") into (" + std::to_string(n_rows) + ", " +std::to_string(n_cols));
+        }
+        Matrix result(n_rows, n_cols, 0);
+        for (int i = 0; i < n_rows; i++)
+        {
+            for (int j = 0; j < n_cols; j++)
+            {
+                result.data[i*n_cols + j] = data[i*n_cols + j];
             }
         }
         return result;
