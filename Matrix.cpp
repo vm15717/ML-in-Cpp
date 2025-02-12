@@ -72,6 +72,52 @@ class Matrix
             data[i] =  static_cast<T>(other.data[i]);
         }
     }
+    Matrix hstack(const Matrix &other)
+    {
+        if (rows != other.rows)
+        {
+            throw std::invalid_argument("The number of columns must match");
+        }
+        Matrix result(this->rows, this->cols + other.cols, 0);
+        for (int i = 0; i < this->rows; i++)
+        {
+            for (int j = 0; j < this->cols; j++)
+            {
+                result.data[i*result.cols+j] =his->data[i*this->cols+j];
+            }
+        }
+        for (int i = 0; i < other.rows; i++)
+        {
+            for (int j = 0; j < other.cols; j++)
+            {
+                result.data[i*result.cols+j+this->cols] = other.data[i*other.cols+j]; 
+            }
+        }
+        return result;
+    }
+    Matrix vstack(const Matrix &other)
+    {
+        if (cols != other.cols)
+        {
+            throw std::invalid_argument("The number of rows must match");
+        }
+        Matrix result(this->rows + other.rows, this->cols, 0);
+        for (int i = 0; i < this->rows; i++)
+        {
+            for (int j = 0; j < this->cols; j++)
+            {
+                result.data[i*this->cols+j] =this->data[i*this->cols+j];
+            }
+        }
+        for (int i = 0; i < other.rows; i++)
+        {
+            for (int j = 0; j < other.cols; j++)
+            {
+                result.data[(i+this->rows)*this->cols+j] = other.data[i*other.cols+j]; 
+            }
+        }
+        return result;
+    }
     Matrix<double> inverse()
     {
         if (rows != cols)

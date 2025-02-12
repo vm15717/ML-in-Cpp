@@ -16,8 +16,12 @@ int main()
     std::string type = "eye";
     Matrix <int> mat5(2, type);
     //std::cout << mat5;
-    std::cout << mat2;
-    std::cout << mat2.inverse();
+    //std::cout << mat2;
+    //std::cout << mat2.inverse();
+    Matrix <double> mat4(5,1,1);
+    Matrix <double> mat6(5,1,2);
+    Matrix <double>mat7 = mat4.hstack(mat6);
+    std::cout << mat7;
     return 0;
     
 }
