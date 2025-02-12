@@ -122,7 +122,7 @@ class Matrix
     {
         int new_rows = end_rows - start_rows;
         int new_cols = end_cols - start_cols;
-        if (new_rows < 0 || new_rows >= rows || new_cols < 0|| new_cols >= cols)
+        if (start_rows < 0 || end_rows >= rows || start_cols < 0|| end_cols >= cols)
         {
             throw std::invalid_argument("The number of rows and columns are not valid!");
         }
