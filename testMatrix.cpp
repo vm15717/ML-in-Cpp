@@ -19,9 +19,13 @@ int main()
     //std::cout << mat2;
     //std::cout << mat2.inverse();
     Matrix <double> mat4(5,1,1);
-    Matrix <double> mat6(5,1,2);
-    Matrix <double>mat7 = mat4.hstack(mat6);
-    std::cout << mat7;
+    Matrix <double> mat6(5,3,1);
+    //Matrix <double>mat7 = mat4.hstack(mat6);
+    //std::cout << mat7;
+    mat6.insert(2, 2, 0);
+    mat6.insert(2, 4, 0);
+    std::cout << mat6;
+    std::cout << mat6.block(1, 2, 2, 4);
     return 0;
     
 }
