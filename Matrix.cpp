@@ -83,7 +83,7 @@ class Matrix
         {
             for (int j = 0; j < this->cols; j++)
             {
-                result.data[i*result.cols+j] =his->data[i*this->cols+j];
+                result.data[i*result.cols+j] =this->data[i*this->cols+j];
             }
         }
         for (int i = 0; i < other.rows; i++)
