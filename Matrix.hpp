@@ -48,7 +48,7 @@ class Matrix
             throw std::invalid_argument("The number of rows or cols have to be > 0");
         }
         data = new T[rows*cols];
-        std::fill(data, data+rows*cols, 0);
+        std::fill(data, data+rows*cols, 0.0);
         if (mattype == "eye")
         {
             for (int i = 0; i < rows; i++)
@@ -61,8 +61,7 @@ class Matrix
     {
         delete[] data;
     }
-    template <typename U>
-    Matrix (const Matrix<U> &other)
+    Matrix (const Matrix &other)
     {
         rows = other.rows;
         cols = other.cols;
@@ -122,7 +121,7 @@ class Matrix
     {
         int new_rows = end_rows - start_rows;
         int new_cols = end_cols - start_cols;
-        if (start_rows < 0 || end_rows >= rows || start_cols < 0|| end_cols >= cols)
+        if (start_rows < 0 || end_rows > rows || start_cols < 0|| end_cols > cols)
         {
             throw std::invalid_argument("The number of rows and columns are not valid!");
         }
@@ -136,7 +135,7 @@ class Matrix
         }
         return result;
     }
-    Matrix<double> inverse()
+    Matrix inverse()
     {
         if (rows != cols)
         {
@@ -144,7 +143,7 @@ class Matrix
         }
         std::string mattype = "eye";
         Matrix <double> identity(rows, mattype);
-        Matrix result = *this;
+        Matrix result = std::move(*this);
         for (int i = 0; i < rows; i++)
         {
             T factor = result.data[i*cols+i];
