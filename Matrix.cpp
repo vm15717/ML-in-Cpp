@@ -118,6 +118,24 @@ class Matrix
         }
         return result;
     }
+    Matrix block(const int start_rows, const int start_cols, const int end_rows, const int end_cols)
+    {
+        int new_rows = end_rows - start_rows;
+        int new_cols = end_cols - start_cols;
+        if (new_rows < 0 || new_rows >= rows || new_cols < 0|| new_cols >= cols)
+        {
+            throw std::invalid_argument("The number of rows and columns are not valid!");
+        }
+        Matrix result(new_rows, new_cols, 0);
+        for (int i = 0; i < new_rows; i++)
+        {
+            for (int j = 0; j < new_cols; j++)
+            {
+                result.data[i*new_cols + j] = data[(start_rows + i)*(new_cols)+j + start_cols];
+            }
+        }
+        return result;
+    }
     Matrix<double> inverse()
     {
         if (rows != cols)
