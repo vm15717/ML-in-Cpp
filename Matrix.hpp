@@ -259,6 +259,18 @@ class Matrix
         }
         return result;
     }
+    T norm(std::string &str) const
+    {
+        double sum = 0;
+        if (str == "inf")
+        {
+            for (int i = 0; i < rows*cols; i++)
+            {
+                sum += data[i];
+            }
+        }
+        return sum;
+    }
     Matrix flatten() const
     {
         Matrix result(rows*cols, 1, 0);
