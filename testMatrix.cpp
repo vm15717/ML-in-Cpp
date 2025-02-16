@@ -33,6 +33,7 @@ int main()
     //std::cout << (mat9.transpose()*mat9).inverse() << std::endl;
     std::cout << mat6.reshape(2, 3);
     std::string str = "inf";
-    std::cout << mat6.norm(str);
+    std::cout << mat6.norm(str) << std::endl;
+    std::cout << mat2.trace();
     return 0;
 }

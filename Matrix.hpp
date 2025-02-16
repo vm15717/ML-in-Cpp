@@ -259,6 +259,19 @@ class Matrix
         }
         return result;
     }
+    T trace() const
+    {
+        if (rows != cols)
+        {
+            throw std::invalid_argument("Cannot calculate a trace for a rectangular matrix!");
+        }
+        T sum = 0;
+        for (int i = 0;i < rows; i++)
+        {
+            sum += data[i*cols + i];
+        }
+        return sum;
+    }
     T norm(std::string &str) const
     {
         double sum = 0;
