@@ -10,7 +10,7 @@ int main()
     std::vector <double> params;
 }
 
-void parameter_find(std::vector <std::vector <double>> &data)
+void parameter_find(std::vector <std::vector <double>> &data, std::vector <double> &params)
 {
     if (data.empty())
     {
@@ -19,6 +19,6 @@ void parameter_find(std::vector <std::vector <double>> &data)
     int n = data.size();
     for (int i = 0; i < n; i++)
     {
-        
+        params += ;
     }
 }

@@ -293,6 +293,10 @@ class Matrix
         }
         return result;
     }
+    Matrix hadamard(const Matrix &other)
+    {
+        Matrix result(rows*other.rows, cols*other.cols, ); 
+    }
     Matrix reshape(const int n_rows, const int n_cols) const
     {
         if (n_rows*n_cols != rows*cols)   
