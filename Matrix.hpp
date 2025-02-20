@@ -293,9 +293,24 @@ class Matrix
         }
         return result;
     }
+    Matrix sum(int axis = 0) const
+    {
+        if (axis == 0)
+        {
+        }
+    }
     Matrix hadamard(const Matrix &other)
     {
-        Matrix result(rows*other.rows, cols*other.cols, ); 
+        int newrows = rows*other.rows;
+        int newcols = cols*other.cols;
+        Matrix result(newrows, newcols, 0); 
+        for (int i = 0; i < newrows; i++)
+        {
+            for (int j = 0; j < newcols; j++)
+            {
+
+            }
+        }
     }
     Matrix reshape(const int n_rows, const int n_cols) const
     {
